@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(User user) {
+        if (repo.existsByUsername(user.getUsername())) throw new RuntimeException("Username exists");
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRole(UserRole.USER);
         user.setEnabled(true);
@@ -82,4 +83,17 @@ public class UserServiceImpl implements UserService {
         repo.save(user);
     }
     
+    @Override
+    public boolean verifyUsernameAndEmail(String username, String email) {
+        return repo.findByUsernameAndEmail(username, email).isPresent();
+    }
+
+    @Override
+    public boolean resetPassword(String username, String newPassword) {
+        return repo.findByUsername(username).map(user -> {
+            user.setPassword(encoder.encode(newPassword));
+            repo.save(user);
+            return true;
+        }).orElse(false);
+    }
 }

@@ -12,5 +12,7 @@ public interface UserService extends UserDetailsService {
     void changePassword(String username, PasswordChangeDto dto);
     User findByUsername(String username);
     void updateLocks(String name, boolean lockComments, boolean lockProfile);
+    boolean verifyUsernameAndEmail(String username, String email);
+    boolean resetPassword(String username, String newPassword);
 }
 
