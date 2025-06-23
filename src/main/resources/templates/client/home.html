@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layouts/head :: head"></head>
+<body>
+  <header th:replace="client/layouts/header :: header"></header>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <!-- Main content (col-lg-8) -->
+        <div class="col-lg-8">
+          <div th:each="category : ${categories}">
+            <h3 th:text="${category.name}">Tên Category</h3>
+            <ul>
+              <li th:each="topic : ${category.topics}">
+                <a th:href="@{/topics/{id}(id=${topic.id})}"
+                   th:text="${topic.title}">Tên Topic</a>
+                (<span th:text="${topic.replyCount}">0</span> replies)
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sidebar (col-lg-4) -->
+        <div class="col-lg-4">
+          <div>
+            <h4>Trending Posts</h4>
+            <ul th:each="p : ${trendingPosts}">
+              <li><a th:href="@{/posts/{id}(id=${p.id})}" th:text="${p.title}">...</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Latest Posts</h4>
+            <ul th:each="p : ${latestPosts}">
+              <li><a th:href="@{/posts/{id}(id=${p.id})}" th:text="${p.title}">...</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Posts từ @followers</h4>
+            <ul th:each="p : ${followedPosts}">
+              <li><a th:href="@{/posts/{id}(id=${p.id})}" th:text="${p.title}">...</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer th:replace="client/layouts/footer :: footer"></footer>
+</body>
+</html>
