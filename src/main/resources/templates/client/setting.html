@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layouts/base :: layout">
+
+<head>
+    <title>Cài đặt tài khoản</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="list-group">
+                    <a href="#profile" class="list-group-item list-group-item-action active" data-bs-toggle="tab">Thông
+                        tin cá nhân</a>
+                    <a href="#password" class="list-group-item list-group-item-action" data-bs-toggle="tab">Đổi mật
+                        khẩu</a>
+                    <a href="#interface" class="list-group-item list-group-item-action" data-bs-toggle="tab">Giao
+                        diện</a>
+                    <a href="#locale" class="list-group-item list-group-item-action" data-bs-toggle="tab">Ngôn ngữ</a>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="profile">
+                        <form th:action="@{/setting/profile}" th:object="${profileForm}" method="post">
+                            <div class="form-group mb-3">
+                                <label>Họ tên</label>
+                                <input type="text" th:field="*{fullName}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Email</label>
+                                <input type="email" th:field="*{email}" class="form-control" />
+                            </div>
+                            <button class="btn btn-primary">Cập nhật</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="password">
+                        <form th:action="@{/setting/password}" th:object="${passwordForm}" method="post">
+                            <div class="form-group mb-3">
+                                <label>Mật khẩu cũ</label>
+                                <input type="password" th:field="*{currentPassword}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Mật khẩu mới</label>
+                                <input type="password" th:field="*{newPassword}" class="form-control" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Xác nhận mật khẩu</label>
+                                <input type="password" th:field="*{confirmPassword}" class="form-control" />
+                            </div>
+                            <button class="btn btn-primary">Đổi mật khẩu</button>
+                        </form>
+                    </div>
+                    <div id="locks">
+                        <form th:action="@{/setting/locks}" method="post">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{lockComments}"
+                                    id="lockComments" />
+                                <label class="form-check-label" for="lockComments">Khóa bình luận</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{lockProfile}"
+                                    id="lockProfile" />
+                                <label class="form-check-label" for="lockProfile">Khóa trang cá nhân</label>
+                            </div>
+                            <button class="btn btn-primary mt-2">Cập nhật</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="interface">
+                        <form th:action="@{/setting/interface}" th:object="${interfaceForm}" method="post">
+                            <div class="form-group mb-3">
+                                <label>Chủ đề giao diện</label>
+                                <select th:field="*{theme}" class="form-select">
+                                    <option th:each="theme : ${themes}" th:value="${theme}" th:text="${theme}"></option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary">Lưu</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="locale">
+                        <form th:action="@{/setting/locale}" th:object="${localeForm}" method="post">
+                            <div class="form-group mb-3">
+                                <label>Ngôn ngữ</label>
+                                <select th:field="*{language}" class="form-select">
+                                    <option th:each="lang : ${languages}" th:value="${lang.code}"
+                                        th:text="${lang.name}"></option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary">Lưu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Simple tab switching logic if not using Bootstrap JS
+        document.querySelectorAll('.list-group-item').forEach(function (tab) {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelectorAll('.list-group-item').forEach(function (t) {
+                    t.classList.remove('active');
+                });
+                tab.classList.add('active');
+                document.querySelectorAll('.tab-pane').forEach(function (pane) {
+                    pane.classList.remove('show', 'active');
+                });
+                var target = tab.getAttribute('href');
+                if (target) {
+                    var pane = document.querySelector(target);
+                    if (pane) {
+                        pane.classList.add('show', 'active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

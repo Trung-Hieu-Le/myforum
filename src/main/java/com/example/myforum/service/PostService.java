@@ -1,14 +1,25 @@
 package com.example.myforum.service;
 
-import com.example.myforum.model.Post;
 import java.util.List;
-import org.springframework.stereotype.Service;
+import com.example.myforum.model.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
-@Service
 public interface PostService {
-    public List<Post> findTrendingPosts();
+    List<Post> findTrendingPosts();
 
-    public List<Post> findLatestPosts();
+    List<Post> findLatestPosts();
 
-    public List<Post> findPostsFromFollowedUsers(String username);
+    List<Post> findPostsFromFollowedUsers(String username);
+
+    Page<Post> getPostsByTopic(Long topicId, Pageable pageable);
+
+    Page<Post> getPostsByAuthor(String username, Pageable pageable);
+
+    Post createPost(String username, String content, List<MultipartFile> files);
+
+    void incrementView(Long postId);
+
+    void incrementComment(Long postId);
 }
