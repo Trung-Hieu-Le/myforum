@@ -3,9 +3,9 @@ package com.example.myforum.controller;
 import com.example.myforum.config.PaginationConfig;
 import com.example.myforum.dto.PasswordChangeDto;
 import com.example.myforum.dto.UserProfileDto;
-import com.example.myforum.model.Category;
+import com.example.myforum.model.TopicCategory;
 import com.example.myforum.model.Post;
-import com.example.myforum.service.CategoryService;
+import com.example.myforum.service.TopicCategoryService;
 import com.example.myforum.service.PostService;
 import com.example.myforum.service.UserService;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 public class HomeController {
     @Autowired
-    private CategoryService categoryService;
+    private TopicCategoryService categoryService;
     @Autowired
     private PostService postService;
     @Autowired
@@ -34,7 +34,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, Principal principal) {
-        List<Category> categories = categoryService.findAllWithTopics();
+        List<TopicCategory> categories = categoryService.findAllWithTopics();
         List<Post> trendingPosts = postService.findTrendingPosts();
         List<Post> latestPosts = postService.findLatestPosts();
         List<Post> followedPosts = principal != null

@@ -1,0 +1,21 @@
+1. Code Quality & Architecture
+
+    Follow specifications strictly: Ensure the implementation meets all functional requirements and correctly handles edge cases and errors.
+
+    Single Responsibility Principle: Every class, function, and module should have one well-defined purpose.
+
+    Modular design: Decompose logic into self-contained, reusable components or services.
+
+    Encapsulation: Hide internal details and expose only necessary interfaces to reduce coupling.
+
+    Use Dependency Injection: Avoid tight coupling by injecting dependencies instead of hardcoding them.
+
+    Adopt layered architecture: Separate responsibilities across layers (e.g., controller, service, repository).
+
+    Avoid premature optimization: Focus on clear, correct code first — optimize only when needed and measurable.
+
+    Follow naming conventions: Use language/framework-specific naming conventions to ensure consistency.
+
+    Organize folder structure: Structure directories logically, adhering to framework conventions or project guidelines.
+
+    Minimize deep nesting: Refactor deeply nested logic with early returns or helper methods.

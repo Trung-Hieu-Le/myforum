@@ -1,0 +1,21 @@
+7. DevOps & Deployment
+
+    Use environment-specific config: Keep secrets and environment variables out of source control.
+
+    Automate deployments: Use CI/CD tools (e.g., GitHub Actions, GitLab CI, Jenkins) to standardize deployment.
+
+    Rollback safely: Ensure you can revert faulty releases quickly.
+
+    Run pre-deploy checks: Lint, test, and validate configs before each deployment.
+
+    Use infrastructure as code: Automate infra setup with Terraform, Ansible, or similar tools.
+
+    Tag releases: Use Git tags or releases to identify deployable code versions.
+
+    Monitor system health: Use uptime checks, logging, tracing, and alerting tools to stay informed.
+
+    Scale horizontally where possible: Prefer stateless services and containers (e.g., Docker, Kubernetes).
+
+    Minimize build artifacts: Only deploy production-ready, optimized builds.
+
+    Use blue-green or canary deployments: For safer, incremental rollouts.

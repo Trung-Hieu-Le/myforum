@@ -1,0 +1,17 @@
+2. Readability & Maintainability
+
+    Descriptive naming: Use meaningful names for variables, functions, classes — avoid unnecessary abbreviations.
+
+    Minimal comments, maximum clarity: Let clean code speak for itself. Use comments to explain why, not what.
+
+    Eliminate dead code: Remove commented-out code, unused variables, or obsolete functions.
+
+    Consistent code style: Use a formatter or linter (e.g., Prettier, ESLint, PHP-CS-Fixer) to enforce style rules.
+
+    Avoid magic numbers/strings: Use constants or enums for reusable values.
+
+    Group related code: Keep logically related functions and files together for easier navigation.
+
+    Avoid long functions: Break up large functions into smaller, testable ones for clarity and reuse.
+
+    Use language idioms: Write code that feels natural in the language or framework you're using.

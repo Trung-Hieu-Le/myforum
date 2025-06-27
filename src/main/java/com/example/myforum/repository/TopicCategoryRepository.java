@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.myforum.model.Category;
+import com.example.myforum.model.TopicCategory;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface TopicCategoryRepository extends JpaRepository<TopicCategory, Long> {
     @EntityGraph(attributePaths = {"topics"})
-    List<Category> findAll();
+    List<TopicCategory> findAll();
 }

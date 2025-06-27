@@ -86,6 +86,8 @@ public class PostServiceImpl implements PostService {
         Post saved = postRepo.save(p);
         // notify via websocket
         simpMessagingTemplate.convertAndSendToUser(username, "/queue/posts", saved);
+
+        
         return saved;
     }
 

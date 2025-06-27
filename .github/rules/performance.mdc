@@ -1,0 +1,21 @@
+4. Performance & Optimization
+
+    Minimize I/O operations: Batch disk, network, or DB operations where possible.
+
+    Avoid unnecessary recomputation: Use caching or memoization for expensive calculations.
+
+    Optimize database usage: Select only required fields, use indexes, and avoid N+1 query problems.
+
+    Paginate large datasets: Never load thousands of records at once in APIs or UIs.
+
+    Reuse expensive objects: Avoid recreating heavy objects like DB connections or HTTP clients unnecessarily.
+
+    Benchmark before optimizing: Always measure performance and compare solutions using profiling tools.
+
+    Avoid excessive logging in production: Limit log verbosity in live environments to preserve performance.
+
+    Defer non-critical work: Use background jobs or queues for tasks that don’t need immediate user feedback.
+
+    Use content delivery networks (CDNs): For static assets in web development.
+
+    Compress assets: Minify JS/CSS, use gzip or Brotli for faster load times.

@@ -1,0 +1,21 @@
+3. Security Best Practices
+
+    Validate and sanitize input: Never trust external data — always validate user input before processing.
+
+    Prevent injection attacks: Use prepared statements, parameterized queries, or ORM features to avoid SQL injection and XSS.
+
+    Secure authentication: Use industry-standard methods (e.g., bcrypt, OAuth2, JWT), never roll your own crypto.
+
+    Protect sensitive data: Avoid hardcoding credentials, secrets, API keys — use secure configuration and vaults.
+
+    Enforce authorization checks: Always verify user roles/permissions before executing actions.
+
+    Avoid exposing internal errors: Log detailed stack traces internally, but return generic messages to the user.
+
+    Use HTTPS everywhere: Encrypt all communications with SSL/TLS.
+
+    Update dependencies regularly: Monitor and patch known vulnerabilities in libraries and frameworks.
+
+    Implement rate limiting: Protect endpoints from abuse and brute-force attacks.
+
+    Set secure headers: Use headers like Content-Security-Policy, X-Frame-Options, and Strict-Transport-Security.

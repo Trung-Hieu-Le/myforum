@@ -24,7 +24,7 @@ public class Topic {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category category;
+    private TopicCategory category;
 
     @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY)
     private List<Post> posts;
@@ -34,7 +34,7 @@ public class Topic {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Topic(String title, Category category) {
+    public Topic(String title, TopicCategory category) {
         this.title = title;
         this.category = category;
         this.createdAt = LocalDateTime.now();
@@ -73,11 +73,11 @@ public class Topic {
         this.updatedAt = updatedAt;
     }
 
-    public Category getCategory() {
+    public TopicCategory getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(TopicCategory category) {
         this.category = category;
     }
 

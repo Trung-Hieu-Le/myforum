@@ -7,8 +7,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "topic_categories")
+public class TopicCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,19 +31,19 @@ public class Category {
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Topic> topics;
 
-    public Category() {
+    public TopicCategory() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Category(String name) {
+    public TopicCategory(String name) {
         this.name = name;
         this.description = "";
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Category(String name, String description) {
+    public TopicCategory(String name, String description) {
         this.name = name;
         this.description = description;
         this.createdAt = LocalDateTime.now();

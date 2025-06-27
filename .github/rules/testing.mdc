@@ -1,0 +1,11 @@
+5. Testing
+
+    Write unit tests: Every public method or business logic should be covered with unit tests.
+
+    Write integration tests: Ensure modules interact correctly, especially at external boundaries (APIs, DBs).
+
+    Use test fixtures/mocks: Avoid hardcoding test data or hitting real external services in unit tests.
+
+    Follow test naming conventions: Test names should clearly describe what they are testing.
+
+    Run tests automatically: Integrate tests into CI/CD pipelines for every commit or pull request.

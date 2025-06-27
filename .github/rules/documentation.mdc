@@ -1,0 +1,11 @@
+9. Documentation
+
+    Write clear documentation: Cover setup instructions, code structure, architecture decisions, and usage examples.
+
+    Document public APIs: Use OpenAPI/Swagger, PHPDoc, JSDoc, or similar for API and SDK documentation.
+
+    Use README.md wisely: Provide a useful project overview, setup guide, and maintenance instructions.
+
+    Maintain changelogs: Log all significant changes with semantic versioning (SemVer).
+
+    Document dependencies and setup: Especially for local development, testing, and deployment.
