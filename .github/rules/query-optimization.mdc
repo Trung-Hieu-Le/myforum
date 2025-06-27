@@ -1,0 +1,23 @@
+description: Rules for writing efficient, scalable, secure queries and database interactions.
+globs: "*"
+alwaysApply: true
+
+Use parameterized queries/ORM: Always prevent injection and support caching.
+
+Select only needed columns: Avoid SELECT *.
+
+Avoid N+1 queries: Use eager loading, JOIN FETCH, or batches.
+
+Index strategically: Ensure queries on filters and joins use indexes. Review via EXPLAIN.
+
+Paginate large datasets: Always use pagination or streaming.
+
+Batch operations: Use bulk insert/update APIs for mass data processing.
+
+Cache queries: Leverage first-level or second-level cache for read-heavy operations.
+
+Limit transaction scope: Keep DB transactions short to avoid contention.
+
+Use read replicas: Leverage read-only replicas in high-read environments.
+
+Monitor slow queries: Log slow SQL and set up alerts for long-running plans.

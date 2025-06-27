@@ -1,11 +1,23 @@
-5. Testing
+description: Strong testing conventions covering unit, integration, E2E, mutation, performance.
+globs: "*"
+alwaysApply: true
 
-    Write unit tests: Every public method or business logic should be covered with unit tests.
+Unit tests for logic: Each public method should be unit-tested.
 
-    Write integration tests: Ensure modules interact correctly, especially at external boundaries (APIs, DBs).
+Integration tests for components: Use in-memory DB or Testcontainers.
 
-    Use test fixtures/mocks: Avoid hardcoding test data or hitting real external services in unit tests.
+Use BDD frameworks: Cucumber or similar for acceptance tests.
 
-    Follow test naming conventions: Test names should clearly describe what they are testing.
+Mock external systems: Use mocks or containers – no real dependencies.
 
-    Run tests automatically: Integrate tests into CI/CD pipelines for every commit or pull request.
+Test edge cases: Include negative, boundary, concurrency, and error paths.
+
+Run tests in CI: Any commit must auto-run all tests.
+
+Test performance-critical functions: Benchmark algorithms and DB queries.
+
+Use mutation testing: Ensure code is meaningfully tested.
+
+Provide test data management: Use factories or fixtures.
+
+Clean up after tests: Reset state, remove temp data.

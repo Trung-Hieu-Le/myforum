@@ -1,0 +1,29 @@
+description: Best practices specific to Spring Boot applications, including structure, config, security, and deploy.
+globs: "**/*.java"
+alwaysApply: true
+
+Layered package layout: controller, service, repository, model, config, security, exception.
+
+Use Starter POMs: Prefer spring-boot-starter-* for dependency bundles.
+
+Externalize config: Use profiles (application.yml, application-prod.yml); avoid hardcoding.
+
+Lazy bean initialization: Enable when startup speed matters.
+
+Secure controllers: Use validation annotations and DTOs, not entity exposure.
+
+Global exception handling: Use @ControllerAdvice with consistent error responses.
+
+Enforce HTTPS & CSRF: As above.
+
+Spring Data JPA care: Avoid N+1, use caching, indexing, pagination.
+
+JWT or OAuth2 tokens: Use stateless authentication and @PreAuthorize.
+
+Actuator & Micrometer: Enable health, metrics, tracing endpoints.
+
+Logback & structured logs: Use SLF4J with JSON or key-value formatting.
+
+Container readiness: Use HealthIndicator for readiness/liveness probes.
+
+Docker multi-stage builds: Keep container images lean.

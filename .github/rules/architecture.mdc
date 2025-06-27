@@ -1,21 +1,23 @@
-1. Code Quality & Architecture
+description: Rules for maintainable, scalable software architecture and modular design.
+globs: "*"
+alwaysApply: true
 
-    Follow specifications strictly: Ensure the implementation meets all functional requirements and correctly handles edge cases and errors.
+Layered separation: Clearly separate presentation, domain, data, and integration layers.
 
-    Single Responsibility Principle: Every class, function, and module should have one well-defined purpose.
+Define boundaries: Use clean module boundaries and interfaces; follow Dependency Inversion.
 
-    Modular design: Decompose logic into self-contained, reusable components or services.
+Favor composition over inheritance: Leverage component composition or IoC patterns instead of deep inheritance.
 
-    Encapsulation: Hide internal details and expose only necessary interfaces to reduce coupling.
+Apply SOLID principles: S, O, L, I, D at every code level.
 
-    Use Dependency Injection: Avoid tight coupling by injecting dependencies instead of hardcoding them.
+Event-driven integration: Use asynchronous messaging / pub-sub in microservices.
 
-    Adopt layered architecture: Separate responsibilities across layers (e.g., controller, service, repository).
+Boundary as anti-corruption layer: Protect core logic from external changes.
 
-    Avoid premature optimization: Focus on clear, correct code first — optimize only when needed and measurable.
+Scale via modules or services: Organize code by domains; enable independent deployments.
 
-    Follow naming conventions: Use language/framework-specific naming conventions to ensure consistency.
+Avoid cyclic dependencies: Enforce acyclic dependencies between modules/packages.
 
-    Organize folder structure: Structure directories logically, adhering to framework conventions or project guidelines.
+Define context via consistent packages: Each service/feature has its own namespace.
 
-    Minimize deep nesting: Refactor deeply nested logic with early returns or helper methods.
+Document architecture patterns: Use ADRs to record chosen approaches (hexagonal, layered, event-driven).

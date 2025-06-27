@@ -1,11 +1,23 @@
-9. Documentation
+description: Rules for clear code-level and system-level documentation including public APIs.
+globs: "*"
+alwaysApply: true
 
-    Write clear documentation: Cover setup instructions, code structure, architecture decisions, and usage examples.
+Document Why, not What: Comments should justify non-obvious decisions.
 
-    Document public APIs: Use OpenAPI/Swagger, PHPDoc, JSDoc, or similar for API and SDK documentation.
+Document assumptions: Note environment, concurrency, failure plans.
 
-    Use README.md wisely: Provide a useful project overview, setup guide, and maintenance instructions.
+API contracts: Use OpenAPI/Swagger for REST APIs; include status, payload formats.
 
-    Maintain changelogs: Log all significant changes with semantic versioning (SemVer).
+Public interface docs: Add Javadoc/TSDoc showing usage, concurrency, exceptions.
 
-    Document dependencies and setup: Especially for local development, testing, and deployment.
+Maintain CHANGELOG.md: Follow Semantic Versioning.
+
+README guidance: Include project purpose, setup, architecture, and how to test or deploy.
+
+Update docs iteratively: Modify documentation alongside code changes.
+
+Use ADRs: Maintain Architecture Decision Records for high-level changes.
+
+Document build and deployment flows: Include CI/CD steps, container images.
+
+User guides and examples: Provide snippets showing typical usage.

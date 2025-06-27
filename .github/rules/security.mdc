@@ -1,21 +1,25 @@
-3. Security Best Practices
+description: Security best practices across authentication, authorization, OWASP, and data protection.
+globs: "*"
+alwaysApply: true
 
-    Validate and sanitize input: Never trust external data — always validate user input before processing.
+Encrypt communication: Enforce HTTPS/TLS for all traffic.
 
-    Prevent injection attacks: Use prepared statements, parameterized queries, or ORM features to avoid SQL injection and XSS.
+Input validation & sanitization: Validate and sanitize all user input.
 
-    Secure authentication: Use industry-standard methods (e.g., bcrypt, OAuth2, JWT), never roll your own crypto.
+Use parameterized queries: Prevent SQL injection .
 
-    Protect sensitive data: Avoid hardcoding credentials, secrets, API keys — use secure configuration and vaults.
+CSRF protection: Enable CSRF tokens for forms/REST endpoints when applicable .
 
-    Enforce authorization checks: Always verify user roles/permissions before executing actions.
+Role-based access: Enforce using RBAC or ACL; use method-level checks (@PreAuthorize).
 
-    Avoid exposing internal errors: Log detailed stack traces internally, but return generic messages to the user.
+Secure session/tokens: Use short-lived JWTs or secure session cookies.
 
-    Use HTTPS everywhere: Encrypt all communications with SSL/TLS.
+Store secrets safely: Never hardcode credentials; use vaults or environment variables.
 
-    Update dependencies regularly: Monitor and patch known vulnerabilities in libraries and frameworks.
+Set response headers: Use CSP, X-Frame-Options, X-Content-Type-Options.
 
-    Implement rate limiting: Protect endpoints from abuse and brute-force attacks.
+Encrypt sensitive data: Use property encryption or secure encoders.
 
-    Set secure headers: Use headers like Content-Security-Policy, X-Frame-Options, and Strict-Transport-Security.
+Dependency hygiene: Scan and update dependencies regularly.
+
+Audit logging: Log security events and failed attempts
