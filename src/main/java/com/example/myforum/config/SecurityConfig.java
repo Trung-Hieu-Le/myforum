@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class SecurityConfig {
 
     @Autowired
-    private UserDetailsService userService;
+    private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
