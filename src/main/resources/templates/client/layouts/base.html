@@ -1,0 +1,28 @@
+<!-- start: base layout -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- start: head include -->
+<head th:replace="client/layouts/head :: head"></head>
+<!-- end: head include -->
+
+<body>
+    <!-- start: header include -->
+    <header th:replace="client/layouts/header :: header"></header>
+    <!-- end: header include -->
+
+    <main>
+        <!-- start: main layout fragment -->
+        <div th:fragment="layout">
+            <div th:replace="~{::content}"></div>
+        </div>
+        <!-- end: main layout fragment -->
+    </main>
+
+    <!-- start: footer include -->
+    <footer th:replace="client/layouts/footer :: footer"></footer>
+    <!-- end: footer include -->
+</body>
+
+</html>
+<!-- end: base layout -->

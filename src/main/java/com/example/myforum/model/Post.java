@@ -1,8 +1,16 @@
 package com.example.myforum.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -10,7 +18,8 @@ import jakarta.validation.constraints.Size;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "post_id")
+    private Long postId;
 
     @Column(nullable = false, length = 1000)
     @Size(max = 1000, message = "Content must be less than 1000 characters")
@@ -30,9 +39,6 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User author; // assume User entity exists
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Media> media;
-
     @Column(name = "view_count", nullable = true)
     private long viewCount;
 
@@ -42,7 +48,7 @@ public class Post {
     public Post() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        
+
     }
 
     public Post(String content, Topic topic, User author) {
@@ -53,14 +59,12 @@ public class Post {
         this.updatedAt = LocalDateTime.now();
     }
 
-    
-    // Getters and setters
-    public Long getId() {
-        return id;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public String getContent() {
@@ -101,14 +105,6 @@ public class Post {
 
     public void setAuthor(User author) {
         this.author = author;
-    }
-
-    public List<Media> getMedia() {
-        return media;
-    }
-
-    public void setMedia(List<Media> media) {
-        this.media = media;
     }
 
     public long getViewCount() {

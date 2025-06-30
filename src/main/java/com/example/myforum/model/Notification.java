@@ -14,7 +14,8 @@ import jakarta.persistence.Table;
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "notification_id")
+    private Long notificationId;
 
     @Column(nullable = false, length = 50)
     private String sender; // username người gửi
@@ -48,12 +49,12 @@ public class Notification {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
+    public Long getNotificationId() {
+        return notificationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNotificationId(Long notificationId) {
+        this.notificationId = notificationId;
     }
 
     public String getSender() {

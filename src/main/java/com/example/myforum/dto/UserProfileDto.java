@@ -4,12 +4,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserProfileDto {
-    @NotBlank private String fullName;
-    @Email    private String email;
+    @NotBlank
+    private String fullName;
+    @Email
+    private String email;
     private boolean lockComments;
     private boolean lockProfile;
 
-    public UserProfileDto() {}
+    public UserProfileDto() {
+    }
 
     public UserProfileDto(String fullName, String email) {
         this.fullName = fullName;

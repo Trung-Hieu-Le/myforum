@@ -1,8 +1,16 @@
 package com.example.myforum.model;
 
-import jakarta.persistence.*;
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -11,7 +19,8 @@ import jakarta.validation.constraints.Size;
 public class TopicCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "category_id")
+    private Long categoryId;
 
     @Column(nullable = false, unique = true)
     @Size(min = 2, max = 50, message = "Category name must be between 2 and 50 characters")
@@ -50,13 +59,12 @@ public class TopicCategory {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // getters & setters
-    public Long getId() {
-        return id;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {

@@ -1,12 +1,14 @@
 package com.example.myforum.service.impl;
 
-import com.example.myforum.model.Topic;
-import com.example.myforum.repository.TopicRepository;
-import com.example.myforum.service.TopicService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.example.myforum.model.Topic;
+import com.example.myforum.repository.TopicRepository;
+import com.example.myforum.service.TopicService;
 
 @Service
 public class TopicServiceImpl implements TopicService {

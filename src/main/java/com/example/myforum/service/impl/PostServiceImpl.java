@@ -1,29 +1,25 @@
 package com.example.myforum.service.impl;
 
-import com.example.myforum.model.Media;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.myforum.config.PaginationConfig;
 import com.example.myforum.model.Post;
 import com.example.myforum.model.Topic;
 import com.example.myforum.model.User;
 import com.example.myforum.repository.PostRepository;
 import com.example.myforum.repository.TopicRepository;
 import com.example.myforum.service.PostService;
-import com.example.myforum.service.StorageService;
-import com.example.myforum.config.PaginationConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import com.example.myforum.service.UserService;
-
-
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -35,9 +31,6 @@ public class PostServiceImpl implements PostService {
     private UserService userService;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-    @Autowired
-    private StorageService storageService; // Assume this is a service to handle file storage
-
 
     private static final int TRENDING_LIMIT = PaginationConfig.TRENDING_SIZE;
     private static final int LATEST_LIMIT = PaginationConfig.LATEST_SIZE;
@@ -74,20 +67,22 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Post createPost(String username, String content, List<MultipartFile> files) {
         User u = userService.findByUsername(username);
-        Post p = new Post(); p.setAuthor(u); p.setContent(content);
-        p.setCreatedAt(LocalDateTime.now()); p.setUpdatedAt(LocalDateTime.now());
-        List<Media> mediaList = files.stream().map(f -> {
-            // save file somewhere and get URL
-            String url = storageService.store(f);
-            Media m = new Media(); m.setUrl(url); m.setType(detectType(f)); m.setPost(p);
-            return m;
-        }).collect(Collectors.toList());
-        p.setMedia(mediaList);
+        Post p = new Post();
+        p.setAuthor(u);
+        p.setContent(content);
+        p.setCreatedAt(LocalDateTime.now());
+        p.setUpdatedAt(LocalDateTime.now());
+        // List<Media> mediaList = files.stream().map(f -> {
+        // // save file somewhere and get URL
+        // String url = storageService.store(f);
+        // Media m = new Media(); m.setUrl(url); m.setType(detectType(f)); m.setPost(p);
+        // return m;
+        // }).collect(Collectors.toList());
+        // p.setMedia(mediaList);
         Post saved = postRepo.save(p);
         // notify via websocket
         simpMessagingTemplate.convertAndSendToUser(username, "/queue/posts", saved);
 
-        
         return saved;
     }
 
@@ -96,7 +91,7 @@ public class PostServiceImpl implements PostService {
         postRepo.findById(postId).ifPresent(p -> {
             p.setViewCount(p.getViewCount() + 1);
             postRepo.save(p);
-            simpMessagingTemplate.convertAndSend("/topic/viewCount/"+postId, p.getViewCount());
+            simpMessagingTemplate.convertAndSend("/topic/viewCount/" + postId, p.getViewCount());
         });
     }
 
@@ -105,18 +100,18 @@ public class PostServiceImpl implements PostService {
         postRepo.findById(postId).ifPresent(p -> {
             p.setCommentCount(p.getCommentCount() + 1);
             postRepo.save(p);
-            simpMessagingTemplate.convertAndSend("/topic/commentCount/"+postId, p.getCommentCount());
+            simpMessagingTemplate.convertAndSend("/topic/commentCount/" + postId, p.getCommentCount());
         });
     }
 
-    private String detectType(MultipartFile file) {
-        String contentType = file.getContentType();
-        if (contentType != null && contentType.startsWith("image/")) {
-            return "image";
-        } else if (contentType != null && contentType.startsWith("video/")) {
-            return "video";
-        } else {
-            return "file"; // default type
-        }
-    }
+    // private String detectType(MultipartFile file) {
+    // String contentType = file.getContentType();
+    // if (contentType != null && contentType.startsWith("image/")) {
+    // return "image";
+    // } else if (contentType != null && contentType.startsWith("video/")) {
+    // return "video";
+    // } else {
+    // return "file"; // default type
+    // }
+    // }
 }

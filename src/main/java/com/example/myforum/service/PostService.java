@@ -1,10 +1,12 @@
 package com.example.myforum.service;
 
 import java.util.List;
-import com.example.myforum.model.Post;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.myforum.model.Post;
 
 public interface PostService {
     List<Post> findTrendingPosts();

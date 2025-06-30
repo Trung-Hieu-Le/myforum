@@ -1,3 +1,4 @@
+<!-- start: header section -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
   <!-- Left: Logo & Search -->
   <a class="navbar-brand d-flex align-items-center" href="#">
@@ -20,14 +21,14 @@
       <li class="nav-item mx-2">
         <a class="nav-link" href="#"><i class="bi bi-chat-dots"></i></a>
       </li>
-      <!-- Nếu chưa đăng nhập -->
+      <!-- If not logged in -->
       <li class="nav-item mx-2 d-none" id="login-link">
         <a class="nav-link" href="/login"><i class="bi bi-box-arrow-in-right"></i> Đăng nhập</a>
       </li>
       <li class="nav-item mx-2 d-none" id="signup-link">
         <a class="nav-link" href="/signup"><i class="bi bi-person-plus"></i> Đăng ký</a>
       </li>
-      <!-- Nếu đã đăng nhập -->
+      <!-- If logged in -->
       <li class="nav-item dropdown mx-2 d-none" id="user-dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown">
           <i class="bi bi-gear"></i> Cài đặt
@@ -35,7 +36,9 @@
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
           <li><a class="dropdown-item" href="/settings">Cài đặt</a></li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
         </ul>
       </li>
@@ -46,3 +49,4 @@
     </form>
   </div>
 </nav>
+<!-- end: header section -->

@@ -14,7 +14,8 @@ public class PasswordChangeDto {
     @NotBlank
     private String confirmPassword;
 
-    public PasswordChangeDto() {}
+    public PasswordChangeDto() {
+    }
 
     public PasswordChangeDto(String currentPassword, String newPassword, String confirmPassword) {
         this.currentPassword = currentPassword;

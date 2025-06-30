@@ -1,16 +1,26 @@
 package com.example.myforum.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import com.example.myforum.enums.UserRole;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
-import com.example.myforum.enums.UserRole;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(unique = true, nullable = false)
@@ -56,14 +66,12 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public User(Long userId, String username, String phone, String email, String password, UserRole role, Boolean enabled, String avatar) {
-        this.userId = userId;
+    public User(String username, String phone, String email, String password, UserRole role, String avatar) {
         this.username = username;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.enabled = enabled;
         this.avatar = avatar;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();

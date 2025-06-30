@@ -1,14 +1,8 @@
 package com.example.myforum.controller;
 
-import com.example.myforum.config.PaginationConfig;
-import com.example.myforum.dto.PasswordChangeDto;
-import com.example.myforum.dto.UserProfileDto;
-import com.example.myforum.model.TopicCategory;
-import com.example.myforum.model.Post;
-import com.example.myforum.service.TopicCategoryService;
-import com.example.myforum.service.PostService;
-import com.example.myforum.service.UserService;
-import jakarta.validation.Valid;
+import java.security.Principal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -20,8 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
-import java.util.List;
+import com.example.myforum.config.PaginationConfig;
+import com.example.myforum.dto.PasswordChangeDto;
+import com.example.myforum.dto.UserProfileDto;
+import com.example.myforum.model.Post;
+import com.example.myforum.model.TopicCategory;
+import com.example.myforum.service.PostService;
+import com.example.myforum.service.TopicCategoryService;
+import com.example.myforum.service.UserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class HomeController {
@@ -32,7 +34,7 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping({ "/", "/home" })
     public String home(Model model, Principal principal) {
         List<TopicCategory> categories = categoryService.findAllWithTopics();
         List<Post> trendingPosts = postService.findTrendingPosts();
