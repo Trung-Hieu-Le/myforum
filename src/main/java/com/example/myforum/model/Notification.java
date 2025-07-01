@@ -20,7 +20,6 @@ public class Notification {
     @Column(name = "notification_id")
     private Long notificationId;
 
-    @Column(nullable = false, length = 50)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", nullable = false)
     private User sender;
