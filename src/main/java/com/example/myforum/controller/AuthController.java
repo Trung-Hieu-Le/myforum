@@ -3,12 +3,14 @@ package com.example.myforum.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.myforum.dto.UserRegisterDto;
+import com.example.myforum.model.User;
 import com.example.myforum.service.UserService;
 
 @Controller
@@ -22,14 +24,24 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String showRegister() {
+    public String showRegister(Model model) {
+        UserRegisterDto user = new UserRegisterDto();
+        model.addAttribute("user", user);
         return "register";
     }
 
     @PostMapping("/register")
-    public String processRegister(@ModelAttribute UserRegisterDto userRegisterDto, Model model) {
+    public String processRegister(@ModelAttribute("user") UserRegisterDto userRegisterDto, Model model, BindingResult result) {
         try {
-            userService.register(userRegisterDto);
+            User existingUser = userService.findByEmail(userRegisterDto.getEmail());
+            if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+                result.rejectValue("email", null, "There is already an account registered with the same email");
+            }
+            if (result.hasErrors()){
+                model.addAttribute("user", userRegisterDto);
+                return "/register";
+            }
+            userService.saveUser(userRegisterDto);
             return "redirect:/login?success";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

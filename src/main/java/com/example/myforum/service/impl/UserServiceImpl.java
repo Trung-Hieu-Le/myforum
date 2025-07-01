@@ -1,12 +1,6 @@
 package com.example.myforum.service.impl;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,47 +17,32 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private PasswordEncoder encoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                mapRolesToAuthorities(user.getRole()));
-    }
-
-    @Override
-    public User register(UserRegisterDto userRegisterDto) {
-        if (userRepository.existsByUsername(userRegisterDto.getUsername()))
-            throw new RuntimeException("Username exists");
-        if (userRepository.findByEmail(userRegisterDto.getEmail()).isPresent())
-            throw new RuntimeException("Email already exists");
-
+    public User saveUser(UserRegisterDto userRegisterDto) {
         User user = new User();
         user.setUsername(userRegisterDto.getUsername());
-        user.setPhone(userRegisterDto.getPhone());
         user.setEmail(userRegisterDto.getEmail());
-        user.setPassword(encoder.encode(userRegisterDto.getPassword()));
+        user.setPhone(userRegisterDto.getPhone());
         user.setRole(UserRole.USER);
-        user.setEnabled(true);
+        user.setPassword(userRegisterDto.getPassword());
         return userRepository.save(user);
     }
 
     @Override
-    public UserProfileDto getProfileDto(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new UserProfileDto(user.getUsername(), user.getEmail());
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public void updateProfile(String username, UserProfileDto dto) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByUsername(username);
         user.setUsername(dto.getFullName());
         user.setEmail(dto.getEmail());
         userRepository.save(user);
@@ -71,25 +50,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(String username, PasswordChangeDto dto) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (!encoder.matches(dto.getCurrentPassword(), user.getPassword())) {
+        User user = userRepository.findByUsername(username);
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Current password is incorrect");
         }
-        user.setPassword(encoder.encode(dto.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
-    @Override
     public void updateLocks(String name, boolean lockComments, boolean lockProfile) {
-        User user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByUsername(name);
         user.setLockComments(lockComments);
         user.setLockProfile(lockProfile);
         userRepository.save(user);
@@ -102,14 +73,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean resetPassword(String username, String newPassword) {
-        return userRepository.findByUsername(username).map(user -> {
-            user.setPassword(encoder.encode(newPassword));
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             return true;
-        }).orElse(false);
+        }
+        return false;
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(UserRole role) {
-        return AuthorityUtils.createAuthorityList(role.name());
+    @Override
+    public UserProfileDto getProfileDto(String username) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getProfileDto'");
     }
 }

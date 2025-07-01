@@ -26,6 +26,10 @@ public class UserRegisterDto {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
+    @NotBlank(message = "Confirm password is required")
+    @Size(min=8, message = "Password must be at least 8 characters long")
+    private String confirmPassword;
+
     @NotNull(message = "Role is required")
     private UserRole role;
 
@@ -38,11 +42,12 @@ public class UserRegisterDto {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public UserRegisterDto(String username, String phone, String email, String password, UserRole role) {
+    public UserRegisterDto(String username, String phone, String email, String password, String confirmPassword, UserRole role) {
         this.username = username;
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.confirmPassword = confirmPassword;
         this.role = role;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
@@ -78,6 +83,14 @@ public class UserRegisterDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirnPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public UserRole getRole() {
