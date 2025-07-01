@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Spring Boot WebSocket Chat Application</title>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+
+<body>
+    <noscript>
+        <h2>Sorry! Your browser doesn't support Javascript</h2>
+    </noscript>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Left: List group chat -->
+            <div class="col-12 col-md-3 border-end mb-3 mb-md-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">List group chat</h5>
+                    <button class="btn btn-sm btn-primary" id="btn-add-group">+ Thêm mới</button>
+                </div>
+                <ul class="list-group" id="group-list">
+                    <!-- Danh sách group sẽ được render ở đây bằng JS -->
+                </ul>
+            </div>
+            <!-- Right: Group chat content -->
+            <div class="col-12 col-md-9">
+                <div id="chat-page">
+                    <div class="chat-container">
+                        <div class="chat-header d-flex align-items-center justify-content-between">
+                            <h5 id="group-title">Tên group chat</h5>
+                            <span class="text-muted" id="group-member-count"></span>
+                            <button class="btn btn-outline-secondary btn-sm" id="btn-invite">Invite</button>
+                        </div>
+                        <div class="connecting">Connecting...</div>
+                        <ul id="messageArea"></ul>
+                        <form id="messageForm" name="messageForm">
+                            <div class="form-group">
+                                <div class="input-group clearfix">
+                                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off"
+                                        class="form-control" />
+                                    <button type="submit" class="primary">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Invite -->
+    <div class="modal" tabindex="-1" id="inviteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mời thành viên vào nhóm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="invite-username" class="form-control" placeholder="Nhập username">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="invite-confirm">Mời</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Invite -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        document.getElementById('btn-invite').onclick = function () {
+            var modal = new bootstrap.Modal(document.getElementById('inviteModal'));
+            modal.show();
+        };
+        document.getElementById('invite-confirm').onclick = function () {
+            const username = document.getElementById('invite-username').value;
+            if (!username) return;
+            fetch(`/groups/${currentGroupId}/invite`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `username=${encodeURIComponent(username)}`
+            }).then(res => {
+                if (res.ok) {
+                    // Gửi notification qua websocket
+                    if (stompClient) {
+                        stompClient.send("/app/notify", {}, JSON.stringify({
+                            recipient: username,
+                            content: `Bạn đã được mời vào nhóm ${document.getElementById('group-title').innerText}`
+                        }));
+                    }
+                    alert('Đã mời thành viên!');
+                } else {
+                    alert('Mời thất bại!');
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>

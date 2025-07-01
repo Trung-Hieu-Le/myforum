@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,10 +21,13 @@ public class Notification {
     private Long notificationId;
 
     @Column(nullable = false, length = 50)
-    private String sender; // username người gửi
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
 
-    @Column(nullable = false, length = 50)
-    private String receiver; // username người nhận
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
 
     @Column(nullable = false, length = 255)
     private String content; // nội dung thông báo
@@ -40,11 +46,11 @@ public class Notification {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Notification(String sender, String receiver, String content) {
+    public Notification(User sender, User receiver, String content, boolean readStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
-        this.readStatus = false; // Mặc định là chưa đọc
+        this.readStatus = readStatus;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -57,19 +63,19 @@ public class Notification {
         this.notificationId = notificationId;
     }
 
-    public String getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
-    public String getReceiver() {
+    public User getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
 

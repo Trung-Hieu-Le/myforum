@@ -16,4 +16,16 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kết nối websocket để nhận notification
+            const socket = new SockJS('/ws');
+            const stomp = Stomp.over(socket);
+            stomp.connect({}, function() {
+                stomp.subscribe('/user/queue/notifications', function(msg) {
+                    document.getElementById('notification-badge').classList.remove('d-none');
+                });
+            });
+        });
+    </script>
 </head>

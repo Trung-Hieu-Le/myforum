@@ -1,11 +1,13 @@
 package com.example.myforum.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.example.myforum.dto.PasswordChangeDto;
 import com.example.myforum.dto.UserProfileDto;
 import com.example.myforum.dto.UserRegisterDto;
 import com.example.myforum.model.User;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     User saveUser(UserRegisterDto userRegisterDto);
 
     UserProfileDto getProfileDto(String username);

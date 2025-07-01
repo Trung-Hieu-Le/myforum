@@ -20,24 +20,36 @@ public class AuthController {
 
     @GetMapping("/login")
     public String showLogin() {
-        return "login";
+        try {
+            return "login";
+        } catch (Exception e) {
+            // Optionally log the error
+            return "error";
+        }
     }
 
     @GetMapping("/register")
     public String showRegister(Model model) {
-        UserRegisterDto user = new UserRegisterDto();
-        model.addAttribute("user", user);
-        return "register";
+        try {
+            UserRegisterDto user = new UserRegisterDto();
+            model.addAttribute("user", user);
+            return "register";
+        } catch (Exception e) {
+            // Optionally log the error
+            model.addAttribute("error", "An error occurred while loading the registration page.");
+            return "error";
+        }
     }
 
     @PostMapping("/register")
-    public String processRegister(@ModelAttribute("user") UserRegisterDto userRegisterDto, Model model, BindingResult result) {
+    public String processRegister(@ModelAttribute("user") UserRegisterDto userRegisterDto, Model model,
+            BindingResult result) {
         try {
             User existingUser = userService.findByEmail(userRegisterDto.getEmail());
-            if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+            if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
                 result.rejectValue("email", null, "There is already an account registered with the same email");
             }
-            if (result.hasErrors()){
+            if (result.hasErrors()) {
                 model.addAttribute("user", userRegisterDto);
                 return "/register";
             }

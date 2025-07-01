@@ -29,6 +29,18 @@
         <a class="nav-link" href="@{/register}"><i class="bi bi-person-plus"></i> Đăng ký</a>
       </li>
       <!-- If logged in -->
+      <li class="nav-item mx-2 d-none" id="notification">
+        <a class="nav-link position-relative" href="/notifications" id="notification-link">
+          <i class="bi bi-bell"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"
+            id="notification-badge">!</span>
+        </a>
+      </li>
+      <li class="nav-item mx-2 d-none" id="groups">
+        <a class="nav-link" href="@{/groups}">
+          <i class="bi bi-people"></i>
+        </a>
+      </li>
       <li class="nav-item dropdown mx-2 d-none" id="user-dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown">
           <i class="bi bi-gear"></i> Cài đặt

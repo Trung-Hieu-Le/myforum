@@ -1,34 +1,34 @@
 package com.example.myforum.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView handleNotFound(ResourceNotFoundException ex) {
-        ModelAndView mav = new ModelAndView("error/404");
-        mav.setStatus(HttpStatus.NOT_FOUND);
-        mav.addObject("message", ex.getMessage());
-        return mav;
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public String handleNoHandler(NoHandlerFoundException ex, Model model) {
-        model.addAttribute("message", "Page not found");
-        return "error/404";
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+            errors.put(error.getField(), error.getDefaultMessage()));
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleServerError(Exception ex) {
-        ModelAndView mav = new ModelAndView("error/500");
-        mav.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        mav.addObject("message", "Unexpected error occurred");
-        return mav;
+    public ResponseEntity<?> handleAllExceptions(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Internal server error");
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
