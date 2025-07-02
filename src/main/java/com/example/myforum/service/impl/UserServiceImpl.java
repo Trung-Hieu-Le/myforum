@@ -1,9 +1,6 @@
 package com.example.myforum.service.impl;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,16 +23,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()))
-            );
-        } else {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
+        return userRepository.findByEmail(email)
+            .map(user -> org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getRole().name())
+                .accountLocked(!user.getEnabled())
+                .build())
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 
     @Override
@@ -45,7 +40,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userRegisterDto.getEmail());
         user.setPhone(userRegisterDto.getPhone());
         user.setRole(UserRole.USER);
-        user.setPassword(userRegisterDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -56,7 +51,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 
     @Override

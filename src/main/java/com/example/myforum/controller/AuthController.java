@@ -1,22 +1,41 @@
 package com.example.myforum.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.myforum.dto.UserRegisterDto;
 import com.example.myforum.model.User;
 import com.example.myforum.service.UserService;
+import com.example.myforum.util.JwtUtil;
 
 @Controller
 public class AuthController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping("/login")
     public String showLogin() {
@@ -26,6 +45,26 @@ public class AuthController {
             // Optionally log the error
             return "error";
         }
+    }
+
+    @PostMapping("/login")
+    public Map<String, String> createAuthenticationToken(@RequestBody Map<String, String> authRequest) throws Exception {
+        String email = authRequest.get("email");
+        String password = authRequest.get("password");
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+            );
+        } catch (AuthenticationException e) {
+            throw new Exception("Incorrect email or password", e);
+        }
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        final String jwt = jwtUtil.generateToken(userDetails);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("token", jwt);
+        return response;
     }
 
     @GetMapping("/register")
