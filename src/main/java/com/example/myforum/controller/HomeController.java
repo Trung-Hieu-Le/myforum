@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import com.example.myforum.service.PostService;
 import com.example.myforum.service.TopicCategoryService;
 import com.example.myforum.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,4 +151,15 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/csrf-token")
+    public CsrfToken csrfToken(HttpServletRequest request, Model model) {
+        try {
+            CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+            return csrfToken;
+        } catch (Exception ex) {
+            logger.error("Error retrieving CSRF token", ex);
+            model.addAttribute("errorMessage", "An error occurred while retrieving the CSRF token.");
+            return null;
+        }
+    }
 }
